@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factory Lean Culture Audit</title>
+<style>
+:root{--ink:#1b2a33;--teal:#0f4c5c;--mid:#2f7f86;--soft:#bfdcdc;--tint:#eef4f4;--line:#cfe0e0;--warn:#b4470f}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font:16px/1.5 Calibri,"Segoe UI",Arial,sans-serif}
+h1,h2{font-family:Cambria,Georgia,serif;color:var(--teal);margin:0}
+main{max-width:980px;margin:0 auto;padding:24px 20px 64px}
+header.top{padding:8px 0 20px}
+h1{font-size:2rem;line-height:1.2}
+.lead{margin:6px 0 0;max-width:62ch}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:20px 0}
+label.f{display:flex;flex-direction:column;gap:4px;font-weight:700;font-size:.9rem;color:var(--teal)}
+input[type=text],input[type=date],textarea{font:inherit;color:var(--ink);padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;width:100%}
+textarea{resize:vertical;min-height:44px}
+:focus-visible{outline:3px solid var(--mid);outline-offset:2px}
+.note{background:var(--tint);border-radius:8px;padding:12px 14px;font-size:.95rem}
+.bar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);margin:0 -20px;padding:10px 20px}
+.bar-in{max-width:980px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px 24px;align-items:baseline}
+.big{font-family:Cambria,Georgia,serif;font-size:1.8rem;font-weight:700;color:var(--teal)}
+.sec{margin-top:32px}
+.sec h2{font-size:1.35rem;display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.sec h2 span{font:700 1rem Calibri,Arial,sans-serif;color:var(--mid)}
+.q{padding:14px 0;border-bottom:1px solid var(--line)}
+.q p{margin:0 0 8px;font-weight:600}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.opt span{display:block;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;font-size:.9rem;min-width:84px;text-align:center}
+.opt b{display:block;font-size:1.05rem;color:var(--teal)}
+.opt input:checked+span{background:var(--teal);border-color:var(--teal);color:#fff}
+.opt input:checked+span b{color:#fff}
+.opt input:focus-visible+span{outline:3px solid var(--mid);outline-offset:2px}
+.q textarea{margin-top:8px;font-size:.92rem}
+.res{background:var(--tint);border-radius:10px;padding:20px;margin-top:36px}
+.dim{display:grid;grid-template-columns:minmax(150px,230px) 1fr 54px;gap:12px;align-items:center;margin:10px 0}
+.track{height:14px;background:#fff;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.fill{height:100%;background:var(--mid);width:0;transition:width .25s}
+.bands{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:18px}
+.bands div{padding:8px 4px;text-align:center;font-size:.85rem;background:#fff;border:1px solid var(--line);border-radius:6px}
+.bands .on{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:700}
+.btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+button{font:700 1rem Calibri,Arial,sans-serif;padding:10px 18px;border-radius:6px;border:1px solid var(--teal);background:var(--teal);color:#fff;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+button.alt{background:#fff;color:var(--teal)}
+.small{font-size:.85rem;color:#46606b;margin-top:14px}
+@media(max-width:600px){.dim{grid-template-columns:1fr 54px}.dim .track{grid-column:1/-1;order:3}.bands{grid-template-columns:1fr}}
+@media print{.bar,.btns{display:none}.opt input:checked+span{-webkit-print-color-adjust:exact;print-color-adjust:exact}main{padding:0}}
+
+/* Compact audit layout */
+main{max-width:1100px;padding:16px 18px 48px}
+header.top{padding:0 0 8px}h1{font-size:1.55rem}.lead{font-size:.87rem;margin:3px 0}
+.fields{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0}
+label.f{font-size:.8rem;gap:2px}input[type=text],input[type=date]{padding:6px 9px;font-size:.9rem}
+.note{padding:7px 11px;font-size:.8rem;margin-bottom:9px}.note summary{cursor:pointer}.note div{padding-top:6px}
+.bar{padding:6px 18px;margin:0 -18px}.bar-in{gap:10px 20px;align-items:center;font-size:.82rem}.big{font-size:1.4rem}
+.navigator{padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin:12px 0;background:#f6fafa}
+.navhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:.9rem}.navhead strong{color:var(--teal)}#remaining{margin-right:auto;color:var(--warn);font-weight:700}
+.questionTracker{display:grid;grid-template-columns:repeat(25,minmax(0,1fr));gap:4px;margin-top:9px}
+.qchip{padding:6px 0;min-width:0;border-radius:5px;font-size:.8rem;background:white;color:var(--teal);border:1px solid #b7cbcb}
+.qchip.answered{background:#187669;color:white;border-color:#187669}
+.qchip:hover{outline:2px solid #5ca6aa;outline-offset:1px}.legend{display:flex;gap:16px;font-size:.7rem;color:#536d76;margin-top:5px;flex-wrap:wrap}
+.mini{font-size:.76rem;padding:5px 9px}
+.sec{margin-top:9px;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.sec>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;background:#f1f7f7;color:var(--teal);cursor:pointer;font-size:.92rem;list-style:none}
+.sec>summary::-webkit-details-marker{display:none}.sec>summary strong:before{content:'▸';margin-right:8px}.sec[open]>summary strong:before{content:'▾'}
+.sec>summary span{font-weight:700;white-space:nowrap;color:var(--mid)}
+.questions{padding:3px 13px 8px}
+.q{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:center;padding:9px 0}
+.q p{margin:0;font-size:.86rem;line-height:1.3;font-weight:600}.q p em{font-style:normal;color:var(--mid);margin-right:5px}
+fieldset{flex-wrap:nowrap;gap:3px}.opt span{padding:4px 6px;min-width:57px;font-size:.68rem;line-height:1.2}.opt b{font-size:.94rem}
+.evidence{grid-column:1/-1;font-size:.75rem;color:var(--mid);margin-top:3px}.evidence summary{cursor:pointer;display:inline-block}.evidence textarea{min-height:35px;padding:5px 8px;margin-top:4px}
+.focus-question{background:#fff4da;outline:2px solid #e2b15c;border-radius:5px}
+.res{margin-top:14px;padding:14px}.res h2{font-size:1.15rem}.dim{margin:6px 0;font-size:.83rem;grid-template-columns:minmax(150px,220px) 1fr 55px}
+.bands{margin-top:10px}.bands div{padding:5px 3px;font-size:.73rem}.small{font-size:.76rem;margin-top:8px}.btns{margin-top:12px}button{font-size:.85rem;padding:8px 12px}
+@media(max-width:900px){.questionTracker{grid-template-columns:repeat(13,minmax(0,1fr))}.q{grid-template-columns:1fr}.q fieldset{margin-top:6px}.opt{flex:1}.opt span{min-width:0}}
+@media(max-width:600px){.fields{grid-template-columns:1fr}.questionTracker{grid-template-columns:repeat(9,minmax(0,1fr))}.q{padding:10px 0}.opt span{font-size:.62rem;padding:5px 2px}.legend{gap:8px}.navhead{gap:7px}}
+@media print{.navigator{display:none}.sec{break-inside:avoid}.sec:not([open]) .questions{display:block!important}.evidence textarea{display:block}}
+</style>
+</head>
+<body>
+<main>
+<header class="top">
+<h1>Factory Lean Culture Audit</h1>
+<p class="lead">25 questions, five dimensions, 100 points. Score each question from verified evidence, not verbal assurances.</p>
+</header>
+<div class="fields">
+<label class="f">Factory / SBU<input type="text" id="factory" placeholder="Enter factory or SBU name"></label>
+<label class="f">Auditor<input type="text" id="auditor" placeholder="Enter auditor name"></label>
+<label class="f">Audit date<input type="date" id="date"></label>
+</div>
+<details class="note"><summary><b>Audit preparation guidance</b> (expand)</summary><div><b>Before you score:</b> observe at least one production shift, interview operators and supervisors, and sample recent records. Collect the last 3 months of OEE, downtime, rejection, productivity, Kaizen, 5S and DMS data where available.</div></details>
+<div class="bar" role="status" aria-live="polite"><div class="bar-in">
+<span class="big"><span id="total">0</span> / 100</span>
+<span id="band">Not started</span>
+<span id="prog">0 of 25 scored</span>
+</div></div>
+<div class="navigator"><div class="navhead"><strong>Question tracker</strong><span id="remaining">25 unanswered</span><button type="button" class="alt mini" id="nextMissing">Next unanswered ↗</button></div><div id="questionTracker" class="questionTracker" aria-label="Question completion tracker"></div><div class="legend"><span>○ Not answered</span><span>● Answered</span><span>Click a number to jump to it</span></div></div><div id="form"></div>
+<section class="res" aria-labelledby="rt">
+<h2 id="rt">Results</h2>
+<div id="dims"></div>
+<div class="bands" id="bands"></div>
+<p class="small" id="pmsg" hidden><b>Print is blocked in this preview.</b> Download the file, open it in your browser (Chrome, Edge or Safari), then press Ctrl+P (Cmd+P on Mac) and choose Save as PDF.</p>
+<p class="small">Audit score = Σ (actual score ÷ 4 × weight). Each question carries 4 points. Maturity bands are proposed internal levels, not an external certification standard.</p>
+<p class="small" id="smsg" role="status" aria-live="polite" hidden></p>
+<div class="btns"><button type="button" id="submit">Submit audit</button><button type="button" class="alt" id="print">Print or save as PDF</button><button type="button" class="alt" id="reset">Clear all scores</button></div>
+</section>
+</main>
+<script>
+// Paste your Google Apps Script web app URL here (see google_sheet_receiver.gs).
+var SCRIPT_URL="https://script.google.com/macros/s/AKfycbzKuYumTd1LEvRho3vTHsasYzNGdeJni4562wjxtrmlJ3ihAs312EB80_tzQscSG1vg2g/exec";
+var LEVELS=["Absent","Ad hoc","Developing","Established","Sustained"];
+var MEANING=["No evidence of the practice","Depends on individual initiative","Practice exists but is inconsistent","Standardized and regularly followed","Consistent, measured, continuously improved"];
+var BANDS=[["Reactive",0,20],["Initial",21,40],["Developing",41,60],["Established",61,80],["Lean-led",81,100]];
+var DIMS=[
+["Leadership & Lean Mindset",["Plant Head conducts documented Gemba walks and closes actions.","Department heads review Lean KPIs during routine management meetings.","Managers coach employees in problem solving and standard work.","Lean projects align with factory cost, quality, delivery, and safety targets.","Management follows up overdue corrective actions."]],
+["Workplace Organization & Standards",["Workplaces remain organized during normal production, not just before audits.","Tools, raw materials, WIP, and finished goods have defined locations.","SOPs are current, accessible, and followed by operators.","Abnormalities, leaks, defects, and unsafe conditions are visible.","Cleaning, inspection, and workplace ownership are assigned."]],
+["Daily Management & Process Discipline",["Daily production meetings use actual performance data.","Downtime, rejection, waste, and production losses are recorded accurately.","Production gaps have owners, deadlines, and escalation rules.","Shift handovers communicate outstanding issues and abnormal conditions.","Production plans and staffing are reviewed against actual demand."]],
+["Employee Engagement & Problem Solving",["Operators can identify and report process abnormalities.","Employees regularly submit practical improvement ideas.","Completed Kaizen improvements have evidence of implementation.","Teams use root-cause analysis rather than repeatedly treating symptoms.","Employees receive feedback and recognition for improvements."]],
+["Results & Continuous Improvement",["OEE or suitable equipment/process effectiveness measures are reviewed.","Productivity, yield, defects, and material losses are monitored.","Manpower utilization and machine capacity are measured against standards.","Cost savings are validated against a documented baseline.","Improvements are checked after implementation and sustained over time."]]
+];
+var form=document.getElementById("form"),n=0,html="";
+DIMS.forEach(function(d,di){
+ html+='<details class="sec" id="section'+di+'" '+(di===0?"open":"")+'><summary><strong>'+(di+1)+'. '+d[0].replace("&","&amp;")+'</strong><span id="ds'+di+'">0 / 20</span></summary><div class="questions">';
+ d[1].forEach(function(q){n++;
+  html+='<div class="q" id="question'+n+'"><p><em>Q'+n+'</em> '+q+'</p><fieldset><legend class="sr" style="position:absolute;left:-9999px">Score for question '+n+'</legend>';
+  for(var s=0;s<5;s++)html+='<label class="opt" title="'+MEANING[s]+'"><input type="radio" name="q'+n+'" value="'+s+'" data-d="'+di+'"><span><b>'+s+'</b>'+LEVELS[s]+'</span></label>';
+  html+='</fieldset><details class="evidence"><summary>+ Add evidence / observation</summary><textarea placeholder="Evidence / gap / observation (optional)" aria-label="Evidence for question '+n+'" rows="1"></textarea></details></div>';});
+ html+='</div></details>';});
+form.innerHTML=html;
+document.getElementById("dims").innerHTML=DIMS.map(function(d,i){return '<div class="dim"><span>'+d[0].replace("&","&amp;")+'</span><div class="track"><div class="fill" id="f'+i+'"></div></div><b id="v'+i+'">0</b></div>';}).join("");
+document.getElementById("bands").innerHTML=BANDS.map(function(b,i){return '<div id="b'+i+'">'+b[0]+'<br>'+b[1]+'-'+b[2]+'</div>';}).join("");
+document.getElementById("questionTracker").innerHTML=Array.from({length:25},function(_,i){return '<button type="button" class="qchip" data-question="'+(i+1)+'" aria-label="Go to question '+(i+1)+'">'+(i+1)+'</button>';}).join("");
+function goToQuestion(i){
+ var section=document.getElementById("section"+Math.floor((i-1)/5));
+ section.open=true;
+ document.getElementById("question"+i).scrollIntoView({behavior:"smooth",block:"center"});
+ document.getElementById("question"+i).classList.add("focus-question");
+ setTimeout(function(){document.getElementById("question"+i).classList.remove("focus-question");},1400);
+}
+document.getElementById("questionTracker").addEventListener("click",function(e){var b=e.target.closest("button[data-question]");if(b)goToQuestion(+b.dataset.question);});
+document.getElementById("nextMissing").addEventListener("click",function(){for(var i=1;i<=25;i++){if(!form.querySelector('input[name="q'+i+'"]:checked')){goToQuestion(i);return;}}say("All 25 questions have been scored.");});
+function update(){
+ var t=0,c=0,ds=[0,0,0,0,0];
+ var all=form.querySelectorAll("input[type=radio]:checked");
+ all.forEach(function(r){var v=+r.value;t+=v;c++;ds[+r.dataset.d]+=v;});
+ document.getElementById("total").textContent=t;
+ document.getElementById("prog").textContent=c+" of 25 scored";
+ document.getElementById("remaining").textContent=(25-c)+" unanswered";
+ for(var qi=1;qi<=25;qi++){
+  var chosen=form.querySelector('input[name="q'+qi+'"]:checked');
+  var chip=document.querySelector('.qchip[data-question="'+qi+'"]');
+  chip.classList.toggle("answered",!!chosen);
+  chip.title=chosen?("Q"+qi+" scored "+chosen.value+"/4"):("Q"+qi+" not answered");
+  chip.setAttribute("aria-label",chip.title);
+ }
+
+ var bi=-1;BANDS.forEach(function(b,i){if(t>=b[1]&&t<=b[2])bi=i;});
+ document.getElementById("band").textContent=c===0?"Not started":BANDS[bi].slice(0,1)+(c<25?" (provisional)":"");
+ BANDS.forEach(function(b,i){document.getElementById("b"+i).className=(c>0&&i===bi)?"on":"";});
+ ds.forEach(function(v,i){document.getElementById("ds"+i).textContent=v+" / 20";document.getElementById("v"+i).textContent=v+"/20";document.getElementById("f"+i).style.width=(v/20*100)+"%";});
+}
+form.addEventListener("change",update);
+var rb=document.getElementById("reset"),rt=null;
+function clearAll(){form.querySelectorAll("input[type=radio]").forEach(function(r){r.checked=false;});form.querySelectorAll("textarea").forEach(function(t){t.value="";});update();}
+rb.addEventListener("click",function(){
+ if(rb.dataset.armed==="1"){clearTimeout(rt);rb.dataset.armed="0";rb.textContent="Clear all scores";clearAll();return;}
+ rb.dataset.armed="1";rb.textContent="Click again to confirm";
+ rt=setTimeout(function(){rb.dataset.armed="0";rb.textContent="Clear all scores";},4000);
+});
+var pm=document.getElementById("pmsg");
+document.getElementById("print").addEventListener("click",function(){
+ var framed=false;try{framed=window.self!==window.top;}catch(e){framed=true;}
+ try{window.print();}catch(e){framed=true;}
+ if(framed){pm.hidden=false;}
+});
+var sm=document.getElementById("smsg"),sb=document.getElementById("submit");
+function say(t,bad){sm.hidden=false;sm.textContent=t;sm.style.color=bad?"#b4470f":"#0f4c5c";sm.style.fontWeight="700";}
+function bandOf(t){var r="";BANDS.forEach(function(b){if(t>=b[1]&&t<=b[2])r=b[0];});return r;}
+sb.addEventListener("click",function(){
+ var f=document.getElementById("factory").value.trim(),a=document.getElementById("auditor").value.trim();
+ var rs=[],ev=[],miss=[],ds=[0,0,0,0,0],t=0,tas=form.querySelectorAll("textarea");
+ for(var i=1;i<=25;i++){var c=form.querySelector('input[name="q'+i+'"]:checked');
+  if(!c){miss.push(i);rs.push("");}else{var v=+c.value;rs.push(v);t+=v;ds[+c.dataset.d]+=v;}
+  ev.push(tas[i-1].value.trim());}
+ if(!f||!a){say("Enter the factory / SBU name and the auditor name before submitting.",true);return;}
+ if(miss.length){say("Score every question before submitting. Missing: "+miss.join(", ")+".",true);return;}
+ if(!SCRIPT_URL || !/^https:\/\/script\.google\.com\//.test(SCRIPT_URL)){say("Paste the deployed Apps Script Web App URL into SCRIPT_URL first.",true);return;}
+ var h=["Timestamp","Factory / SBU","Auditor","Audit date","Total score","Maturity band","Leadership","Workplace & Standards","Daily Management","Engagement & Problem Solving","Results & Improvement"];
+ var row=[new Date().toISOString(),f,a,document.getElementById("date").value,t,bandOf(t)].concat(ds);
+ for(i=1;i<=25;i++){h.push("Q"+i+" score");row.push(rs[i-1]);}
+ for(i=1;i<=25;i++){h.push("Q"+i+" evidence");row.push(ev[i-1]);}
+ sb.disabled=true;say("Submitting...");
+ fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({headers:h,row:row})})
+ .then(function(){say("Request sent. Check the Audit Data tab and Apps Script Executions to verify it was saved. Total "+t+" / 100 ("+bandOf(t)+").");})
+ .catch(function(){say("Could not send. Check your internet connection and the SCRIPT_URL, then try again.",true);})
+ .then(function(){sb.disabled=false;});
+});
+document.getElementById("date").valueAsDate=new Date();
+update();
+</script>
+</body>
+</html>
