@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OPEX Culture Audit Checklist</title>
+  <title>Multidimensional Operational Excellence Audit</title>
   <style>
     :root {
       --primary: #005a70;
@@ -27,6 +27,7 @@
       color: var(--text-color);
       padding: 20px;
       line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
     }
 
     .container {
@@ -362,13 +363,229 @@
         background: transparent !important;
       }
     }
+
+    /* ==========================================================
+       RESPONSIVE / MOBILE
+       Screen only, so the printed sheet keeps the full table.
+       ========================================================== */
+    @media screen and (max-width: 1000px) {
+      .container {
+        max-width: 100%;
+      }
+      th, td {
+        padding: 10px 12px;
+      }
+    }
+
+    @media screen and (max-width: 780px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 16px 14px;
+        border-radius: 6px;
+      }
+
+      h1 {
+        font-size: 19px;
+        line-height: 1.3;
+      }
+
+      header {
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+      }
+
+      /* Metrics: three even columns instead of wrapping */
+      .metrics-summary-bar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        padding: 10px 8px;
+        margin-bottom: 16px;
+      }
+
+      .metric-item .value {
+        font-size: 18px;
+      }
+
+      .metric-item .label {
+        font-size: 9.5px;
+        letter-spacing: 0.3px;
+      }
+
+      .header-info {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 14px;
+        margin-bottom: 20px;
+      }
+
+      /* 16px keeps iOS Safari from zooming when a field is focused */
+      .form-group input,
+      .remarks-input {
+        font-size: 16px;
+      }
+
+      /* Tables collapse into stacked question cards */
+      .area-block {
+        margin-bottom: 18px;
+      }
+
+      .area-header {
+        font-size: 14.5px;
+        padding: 10px 14px;
+        line-height: 1.35;
+      }
+
+      table,
+      tbody {
+        display: block;
+        width: 100%;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody tr {
+        display: block;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      tbody tr:hover {
+        background-color: transparent;
+      }
+
+      tbody td {
+        display: block;
+        width: auto !important;
+        padding: 0;
+        border-bottom: none;
+        text-align: left !important;
+      }
+
+      tbody td:first-child {
+        font-size: 15px;
+        line-height: 1.45;
+        margin-bottom: 8px;
+      }
+
+      /* Re-state the column meaning, since the table head is hidden */
+      tbody td:nth-child(2)::before,
+      tbody td.ref-cell::before {
+        content: "Response (0 / 1)";
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #7c8b92;
+        margin-bottom: 4px;
+      }
+
+      tbody td.ref-cell::before {
+        content: "Reference link";
+      }
+
+      .radio-group {
+        justify-content: flex-start !important;
+        gap: 24px;
+        padding: 0 0 12px;
+      }
+
+      .radio-label {
+        font-size: 15px;
+      }
+
+      .radio-label input {
+        width: 20px;
+        height: 20px;
+      }
+
+      .ref-cell {
+        padding: 0;
+        background: transparent;
+      }
+
+      .ref-input {
+        min-height: 44px;
+        padding: 9px 10px;
+        font-size: 16px;
+        border: 1px dashed #c3d2d8;
+        border-radius: 4px;
+        background: #ffffff;
+      }
+
+      .ref-input:focus {
+        border-style: solid;
+        border-color: var(--primary);
+      }
+
+      .remarks-body {
+        padding: 14px;
+      }
+
+      .remarks-input {
+        min-height: 130px;
+        padding: 12px;
+      }
+
+      .score-summary {
+        flex-direction: column;
+        gap: 10px;
+        padding: 16px;
+        margin-top: 20px;
+      }
+
+      .score-box .num {
+        font-size: 24px;
+      }
+
+      /* Full-width, thumb-friendly buttons (primary action on top) */
+      .actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .actions button {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 16px;
+      }
+    }
+
+    @media screen and (max-width: 380px) {
+      h1 {
+        font-size: 17px;
+      }
+      .metrics-summary-bar {
+        padding: 8px 4px;
+      }
+      .metric-item .value {
+        font-size: 16px;
+      }
+      .metric-item .label {
+        font-size: 8.5px;
+      }
+      tbody tr {
+        padding: 10px 12px;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <h1>Multidimentional Operational Excellence Audit</h1>
+    <h1>Multidimensional Operational Excellence Audit</h1>
   </header>
 
   <!-- Top Metrics Summary -->
@@ -454,7 +671,7 @@
     {
       area: "Problem Solving & Kaizen",
       questions: [
-         "Are Kaizen proposals evaluated regularly and validated by the Kaizen Committee?",
+        "Are Kaizen proposals evaluated regularly and validated by the Kaizen Committee?",
         "Are implemented Kaizens documented with before-and-after evidence?",
         "Are Kaizen cost savings verified by Finance?",
         "Are problem cards reviewed regularly?",
@@ -511,8 +728,7 @@
         "Are employees trained on applicable SOPs?"
       ]
     },
-
-        {
+    {
       area: "Digitalization & IT Systems",
       questions: [
         "Are warehouse locations properly configured in the Inventory module?",
@@ -590,6 +806,9 @@
     container.addEventListener('input', (e) => {
       if (e.target.classList.contains('ref-input')) autoGrow(e.target);
     });
+
+    // Show correct totals immediately on load (no click needed)
+    calculateScore();
   }
 
   function autoGrow(el) {
