@@ -132,6 +132,125 @@
       padding: 12px 18px;
       font-size: 16px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* NEW: live score chip inside every section header */
+    .area-title {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .area-score {
+      flex: 0 0 auto;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      font-variant-numeric: tabular-nums;
+      padding: 3px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .area-score.s-empty {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.28);
+      color: #e5eef1;
+    }
+
+    .area-score.s-good {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+
+    .area-score.s-mid {
+      background: #d68910;
+      border-color: #d68910;
+    }
+
+    .area-score.s-low {
+      background: #c0392b;
+      border-color: #c0392b;
+    }
+
+    /* NEW: section-wise score summary */
+    .section-summary {
+      margin-top: 30px;
+    }
+
+    .section-summary table {
+      table-layout: fixed;
+    }
+
+    .section-summary th:nth-child(1) { width: 42%; }
+    .section-summary th:nth-child(2) { width: 13%; text-align: center; }
+    .section-summary th:nth-child(3) { width: 12%; text-align: center; }
+    .section-summary th:nth-child(4) { width: 33%; }
+
+    .section-summary td:nth-child(2),
+    .section-summary td:nth-child(3) {
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    .section-summary td:nth-child(1) {
+      font-size: 14px;
+    }
+
+    .pct-badge {
+      display: inline-block;
+      min-width: 52px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+      background: #95a5a6;
+    }
+
+    .pct-badge.p-good { background: var(--accent-color); }
+    .pct-badge.p-mid  { background: #d68910; }
+    .pct-badge.p-low  { background: #c0392b; }
+
+    .bar {
+      height: 8px;
+      background: #e6edf0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--accent-color);
+      transition: width 0.25s ease, background-color 0.25s ease;
+    }
+
+    .bar > span.b-good { background: var(--accent-color); }
+    .bar > span.b-mid  { background: #d68910; }
+    .bar > span.b-low  { background: #c0392b; }
+
+    .summary-note {
+      margin-top: 12px;
+      font-size: 12.5px;
+      color: #607d86;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .summary-note strong {
+      color: #b03a2e;
     }
 
     table {
@@ -579,6 +698,72 @@
         padding: 10px 12px;
       }
     }
+
+    /* NEW: mobile layout for the section-wise summary + header chips */
+    @media screen and (max-width: 780px) {
+      .area-score {
+        font-size: 11.5px;
+        padding: 2px 9px;
+      }
+
+      .section-summary table,
+      .section-summary thead,
+      .section-summary tbody,
+      .section-summary tr,
+      .section-summary td {
+        display: block;
+        width: 100% !important;
+      }
+
+      .section-summary thead {
+        display: none;
+      }
+
+      .section-summary tr {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .section-summary tr:last-child {
+        border-bottom: none;
+      }
+
+      .section-summary td {
+        padding: 0;
+        border: none;
+        text-align: left;
+      }
+
+      .section-summary td:nth-child(1) {
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 5px;
+      }
+
+      .section-summary td:nth-child(2) {
+        display: inline-block;
+        width: auto !important;
+        font-size: 13px;
+        color: #4f646b;
+        margin-right: 8px;
+      }
+
+      .section-summary td:nth-child(3) {
+        display: inline-block;
+        width: auto !important;
+        margin-bottom: 6px;
+      }
+
+      .section-summary td:nth-child(4) {
+        margin-top: 2px;
+      }
+
+      .summary-note {
+        flex-direction: column;
+        gap: 6px;
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -609,7 +794,7 @@
     <div class="header-info">
       <div class="form-group">
         <label for="sbu">Strategic Business Unit (SBU)</label>
-        <input type="text" id="sbu" placeholder="" required>
+        <input type="text" id="sbu" placeholder="e.g. ACCL" required>
       </div>
       <div class="form-group">
         <label for="auditor">Auditor Name</label>
@@ -633,6 +818,29 @@
           <textarea id="remarks" class="remarks-input" rows="7"
                     placeholder="Write audit comments &mdash; key observations, good practices, gaps identified, root causes, agreed corrective actions, responsible persons and target dates&hellip;"></textarea>
         </div>
+      </div>
+    </div>
+
+    <!-- NEW: Section-wise Score Summary -->
+    <div class="area-block section-summary">
+      <div class="area-header">
+        <span class="area-title">Section-wise Score</span>
+        <span class="area-score s-empty" id="overallPctChip">0%</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>Score</th>
+            <th>%</th>
+            <th>Progress</th>
+          </tr>
+        </thead>
+        <tbody id="sectionScoreBody"></tbody>
+      </table>
+      <div class="summary-note">
+        <span id="weakestSection">Weakest area will appear here once you start scoring.</span>
+        <span>Green &ge; 80% &middot; Amber 50&ndash;79% &middot; Red &lt; 50%</span>
       </div>
     </div>
 
@@ -743,19 +951,27 @@
   ];
 
   let totalQuestionsCount = 0;
+  const sections = [];          // NEW: { name, count, score, answered }
+  const questionSection = [];   // NEW: question index -> section index
 
   function renderForm() {
     const container = document.getElementById('questionsContainer');
     let qIndex = 0;
 
-    auditData.forEach((group) => {
+    auditData.forEach((group, groupIndex) => {
       const areaBlock = document.createElement('div');
       areaBlock.className = 'area-block';
 
+      // NEW: title + live score chip in the section header
       const header = document.createElement('div');
       header.className = 'area-header';
-      header.innerText = group.area;
+      header.innerHTML = `
+        <span class="area-title">${group.area}</span>
+        <span class="area-score s-empty" id="areaScore_${groupIndex}">0 / ${group.questions.length}</span>
+      `;
       areaBlock.appendChild(header);
+
+      sections.push({ name: group.area, count: group.questions.length, score: 0, answered: 0 });
 
       const table = document.createElement('table');
       table.innerHTML = `
@@ -773,6 +989,7 @@
 
       group.questions.forEach((q) => {
         qIndex++;
+        questionSection[qIndex] = groupIndex;   // NEW
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>${q}</td>
@@ -820,11 +1037,21 @@
     let score = 0;
     let answered = 0;
 
+    // NEW: reset per-section counters
+    sections.forEach((s) => { s.score = 0; s.answered = 0; });
+
     for (let i = 1; i <= totalQuestionsCount; i++) {
       const selected = document.querySelector(`input[name="q_${i}"]:checked`);
       if (selected) {
         answered++;
-        score += parseInt(selected.value, 10);
+        const value = parseInt(selected.value, 10);
+        score += value;
+
+        const sec = sections[questionSection[i]];
+        if (sec) {
+          sec.answered++;
+          sec.score += value;
+        }
       }
     }
 
@@ -835,6 +1062,67 @@
     // Update Bottom Summary
     document.getElementById('totalScore').innerText = `${score} / ${totalQuestionsCount}`;
     document.getElementById('answeredCount').innerText = `${answered} / ${totalQuestionsCount}`;
+
+    // NEW: refresh section chips + section-wise table
+    renderSectionScores(score, answered);
+  }
+
+  // NEW: band helper — 80%+ green, 50-79% amber, below red
+  function band(pct) {
+    if (pct >= 80) return 'good';
+    if (pct >= 50) return 'mid';
+    return 'low';
+  }
+
+  function renderSectionScores(totalScore, totalAnswered) {
+    const tbody = document.getElementById('sectionScoreBody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    sections.forEach((s, i) => {
+      const pct = s.count ? Math.round((s.score / s.count) * 100) : 0;
+      const state = s.answered === 0 ? 'empty' : band(pct);
+
+      // header chip
+      const chip = document.getElementById(`areaScore_${i}`);
+      if (chip) {
+        chip.textContent = `${s.score} / ${s.count}`;
+        chip.className = 'area-score s-' + state;
+      }
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${s.name}</td>
+        <td>${s.score} / ${s.count}</td>
+        <td><span class="pct-badge ${state === 'empty' ? '' : 'p-' + state}">${s.answered === 0 ? '&mdash;' : pct + '%'}</span></td>
+        <td><div class="bar"><span class="b-${state}" style="width:${s.answered === 0 ? 0 : pct}%"></span></div></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // overall % chip
+    const overallPct = totalQuestionsCount ? Math.round((totalScore / totalQuestionsCount) * 100) : 0;
+    const overallChip = document.getElementById('overallPctChip');
+    if (overallChip) {
+      overallChip.textContent = overallPct + '%';
+      overallChip.className = 'area-score ' + (totalAnswered === 0 ? 's-empty' : 's-' + band(overallPct));
+    }
+
+    // weakest area callout
+    const note = document.getElementById('weakestSection');
+    if (note) {
+      const started = sections.filter((s) => s.answered > 0);
+      if (!started.length) {
+        note.innerHTML = 'Weakest area will appear here once you start scoring.';
+      } else {
+        const weakest = started.reduce((a, b) =>
+          (b.score / b.count) < (a.score / a.count) ? b : a
+        );
+        const pct = Math.round((weakest.score / weakest.count) * 100);
+        note.innerHTML = `Focus area: <strong>${weakest.name}</strong> &mdash; ${pct}% (${weakest.score} / ${weakest.count})`;
+      }
+    }
   }
 
   function resetAuditForm() {
