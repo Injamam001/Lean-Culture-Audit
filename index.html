@@ -597,8 +597,8 @@
       }
 
       /* Re-state the column meaning, since the table head is hidden */
-      tbody td:nth-child(2)::before,
-      tbody td.ref-cell::before {
+      .area-block:not(.section-summary) tbody td:nth-child(2)::before,
+      .area-block:not(.section-summary) tbody td.ref-cell::before {
         content: "Response (0 / 1)";
         display: block;
         font-size: 10px;
@@ -609,7 +609,7 @@
         margin-bottom: 4px;
       }
 
-      tbody td.ref-cell::before {
+      .area-block:not(.section-summary) tbody td.ref-cell::before {
         content: "Reference link";
       }
 
@@ -776,7 +776,7 @@
   <!-- Top Metrics Summary -->
   <div class="metrics-summary-bar">
     <div class="metric-item">
-      <div class="value" id="topTotalQuestions">42</div>
+      <div class="value" id="topTotalQuestions">35</div>
       <div class="label">Total Questions</div>
     </div>
     <div class="metric-item">
@@ -794,7 +794,7 @@
     <div class="header-info">
       <div class="form-group">
         <label for="sbu">Strategic Business Unit (SBU)</label>
-        <input type="text" id="sbu" placeholder="" required>
+        <input type="text" id="sbu" placeholder="e.g. ACCL" required>
       </div>
       <div class="form-group">
         <label for="auditor">Auditor Name</label>
@@ -847,11 +847,11 @@
     <!-- Bottom Score Summary -->
     <div class="score-summary">
       <div class="score-box">
-        <div class="num" id="totalScore">0 / 42</div>
+        <div class="num" id="totalScore">0 / 35</div>
         <div class="lbl">Total Score</div>
       </div>
       <div class="score-box">
-        <div class="num" id="answeredCount">0 / 42</div>
+        <div class="num" id="answeredCount">0 / 35</div>
         <div class="lbl">Questions Answered</div>
       </div>
     </div>
@@ -934,18 +934,6 @@
       questions: [
         "Are current SOPs and work instructions available at workstations?",
         "Are employees trained on applicable SOPs?"
-      ]
-    },
-    {
-      area: "Digitalization & IT Systems",
-      questions: [
-        "Are warehouse locations properly configured in the Inventory module?",
-        "Is Item Plant Warehouse configured for all required items?",
-        "Are existing Shop Floor configurations checked before creating new ones?",
-        "Are Production Lines configured without duplication?",
-        "Are existing Work Centers verified before creating new ones?",
-        "Is Routing configured after completing Shop Floor, Production Line and Work Center setup?",
-        "Are required items mapped against respective machines in OEE Capacity Configuration?"
       ]
     }
   ];
